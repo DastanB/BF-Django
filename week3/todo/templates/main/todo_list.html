@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block content %}
+<hr>
+<h2>Tasks in "List1"</h2>
+
+<table class="table">
+    <tr>
+        <th>Task</th>
+        <th>Created</th> 
+        <th>Due on</th>
+        <th>Owner</th>
+        <th>Mark</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <th>{{task.name}}</th>
+        <th>{{task.created}}</th>
+        <th>{{task.due_on}}</th>
+        <th>{{task.owner}}</th>
+        {% if task.mark is False %}
+        <th>
+            <button type="button" class="btn btn-primary">Done</button>
+        </th>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
