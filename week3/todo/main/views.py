@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Task
 
 # Create your views here.
-def ToDoList(request):
+def to_do_list(request):
     tasks = list()
 
     task1 = Task()
@@ -40,7 +40,7 @@ def ToDoList(request):
 
     return render(request, 'main/todo_list.html', context)
 
-def DoneList(request):
+def done_list(request):
     
     tasks = list()
 
