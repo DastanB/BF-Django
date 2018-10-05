@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block header %}
+    <a href="add_post"><button type="button" class="btn btn-info">Add post</button></a>
+{% endblock %}
+
+{% block content %}
+<hr>
+<h2>All posts</h2>
+
+<form method="GET" class="form-inline" action="">
+    {% csrf_token %}
+    <input class="form-control" type="text" name="title" placeholder="Search">
+    <button type="submit" class="btn btn-primary my-1" style="margin-left: 5px;">Submit</button>
+</form>
+
+<button type="button" class="btn btn-primary" onclick="window.location.href='/?order=date'" >Order by date</button>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+    </tr>
+    {% for post in posts %}
+    <tr>
+        <th><a href="{{post.id}}">{{post.title}}</a></th>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
