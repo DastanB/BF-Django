@@ -20,10 +20,12 @@
 <table class="table">
     <tr>
         <th>Name</th>
+        <th>Want to?</th>
     </tr>
     {% for list in lists %}
     <tr>
         <th><a href="{{list.id}}/todolist">{{list.name}}</a></th>
+        <th><a href="{{list.id}}/update_list"><button type="button" class="btn btn-primary">Update</button></a></th>
     </tr>
     {% endfor %}
 </table>

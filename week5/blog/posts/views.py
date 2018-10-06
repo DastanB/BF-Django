@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import TitleForm, PostForm, CommentForm
+from .forms import TitleForm, PostForm, CommentForm, UpdateCommentForm
 from .models import Post, Comment
 from django.contrib.auth.models import User
 # Create your views here.
@@ -74,3 +74,46 @@ def add_comment(request, fk):
         'users': User.objects.all(),
     }
     return render(request, 'posts/add_comment.html', context)
+
+def delete_post(request, pk):
+    post = Post.objects.get(pk= pk)
+    post.delete()
+    return redirect('/')
+
+def update_post(request, pk):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = Post.objects.get(pk=pk)
+            post.title = form.cleaned_data['title']
+            post.body = form.cleaned_data['body']
+            post.save()
+            return redirect('/')
+    else:
+        form = PostForm()
+    context = {
+        'form': form,
+        'post': Post.objects.get(pk=pk)
+    }
+    return render(request, 'posts/update_post.html', context)
+
+def delete_comment(request, fk, pk):
+    comment = Comment.objects.get(pk= pk)
+    comment.delete()
+    return redirect('..')
+
+def update_comment(request, fk, pk):
+    if request.method == 'POST':
+        form = UpdateCommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment.objects.get(pk=pk)
+            comment.message = form.cleaned_data['message']
+            comment.save()
+            return redirect('..')
+    else:
+        form = UpdateCommentForm()
+    context = {
+        'form': form,
+        'comment': Comment.objects.get(pk=pk)
+    }
+    return render(request, 'posts/update_comment.html', context)

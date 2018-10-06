@@ -23,6 +23,7 @@
         <th>Owner</th>
         <th>Mark</th>
         <th>Delete</th>
+        <th>Update</th>
     </tr>
     {% for task in tasks %}
     {% if task.mark is False %}    
@@ -37,6 +38,9 @@
         </th>
         <th>
             <a href="./deletetask/{{task.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+        </th>
+        <th>
+            <a href="./updatealltask/{{task.id}}"><button type="button" class="btn btn-info">Update</button></a>
         </th>
     {% endif %}
     </tr>

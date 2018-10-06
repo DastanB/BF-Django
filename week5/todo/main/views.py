@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Task, List
-from .forms import SearchListForm, TaskForm, ListForm
+from .forms import SearchListForm, TaskForm, ListForm, UpdateTaskForm
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.dateparse import parse_datetime
@@ -149,6 +149,26 @@ def new_list(request):
     }
     return render(request, 'main/add_list.html', context)
 
+def update_list(request, pk):
+    print('aaa')
+    if request.method == 'POST':
+        form = ListForm(request.POST)
+        print(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            the_list = List.objects.get(pk=pk)
+            the_list.name = name
+            the_list.save()
+            return redirect('/')
+    else:
+        form = ListForm()
+    
+    context = {
+        'form': form,
+        'list': List.objects.get(pk=pk)
+    }
+    return render(request, 'main/update_list.html', context)
+
 def make_done_task(request, fk, pk):
     task = Task.objects.get(pk= pk)
     task.mark = True
@@ -173,3 +193,26 @@ def delete_task(request, fk, pk):
     task.delete()
     messages.success(request, ('Task has been deleted!'))
     return redirect('../todolist')
+
+def update_task(request, fk, pk):
+    if request.method == 'POST':
+        form = UpdateTaskForm(request.POST or None)
+        print(form.errors)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            due_on = form.cleaned_data['due_on']
+            
+            task = Task.objects.get(pk=pk)
+            task.name = name 
+            task.due_on = due_on
+            task.save()
+            return redirect('../todolist')
+    
+
+    form = UpdateTaskForm()
+    context = {
+        'form': form,
+        'fk': fk,
+        'task': Task.objects.get(pk=pk)
+    }
+    return render(request, 'main/update_task.html', context)

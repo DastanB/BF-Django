@@ -17,12 +17,16 @@
         <th>User</th>
         <th>Date</th>
         <th>Comment</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
     {% for comment in comments %}
     <tr>
         <th>{{comment.user}}</th>
         <th>{{comment.published}}</th>
         <th>{{comment.message}}</th>
+        <th><a href="./update_comment/{{comment.id}}"><button type="button" class="btn btn-info">Update</button></a></th>
+        <th><a href="./delete_comment/{{comment.id}}"><button type="button" class="btn btn-danger">Delete</button></a></th>
     </tr>
     {% endfor %}
 </table>
