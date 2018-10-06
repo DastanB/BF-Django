@@ -7,7 +7,7 @@ class SearchListForm(forms.Form):
 
 class TaskForm(forms.Form):
     name = forms.CharField(max_length = 255)
-    due_on = forms.CharField()
+    due_on = forms.DateTimeField()
     owner = forms.ModelChoiceField(queryset=User.objects.all())
 
 class ListForm(forms.ModelForm):

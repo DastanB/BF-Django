@@ -106,6 +106,9 @@ def show_lists(request):
 
 def new_task(request, fk):
     if request.method == 'POST':
+        # data = request.POST
+        # due_on = parse_datetime(data['due_on'])
+        # data['due_on'] = due_on 
         form = TaskForm(request.POST or None)
         print(form.errors)
         if form.is_valid():
@@ -113,8 +116,7 @@ def new_task(request, fk):
             name = form.cleaned_data['name']
             due_on = form.cleaned_data['due_on']
             owner = form.cleaned_data['owner']
-            created = models.DateTimeField()
-            due_on = models.DateTimeField()
+            
             task = Task()
             task.name = name 
             task.created = datetime.now()
@@ -123,7 +125,7 @@ def new_task(request, fk):
             task.mark = False 
             task.list_id = List.objects.get(pk=fk)
             task.save()
-            return redirect('<fk>/todolist')
+            return redirect('./todolist')
     
 
     form = TaskForm()
@@ -165,3 +167,9 @@ def delete_list(request, fk):
     the_list = List.objects.get(pk= fk)
     the_list.delete()
     return redirect('..')
+
+def delete_task(request, fk, pk):
+    task = Task.objects.get(pk= pk)
+    task.delete()
+    messages.success(request, ('Task has been deleted!'))
+    return redirect('../todolist')
