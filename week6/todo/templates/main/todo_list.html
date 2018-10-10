@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block header %}
+{% if user.is_authenticated %}
+<a href="./new_task"><button type="button" class="btn btn-info">Add task</button></a>
+{% endif %}
+{% endblock%}
+
+{% block content %}
+<hr>
+<h2>Tasks in {{list.name}}</h2>
+
+<form method="GET" class="form-inline" action="">
+    <input class="form-control" type="text" name = "name" placeholder="Search">
+    <button type="submit" class="btn btn-primary my-1" style="margin-left: 5px;">Submit</button>
+</form>
+<button type="button" class="btn btn-primary" onclick="window.location.href='/1/todolist?order=name'" >Order by name</button>
+
+<table class="table">
+    <tr>
+        <th>Task</th>
+        <th>Created</th> 
+        <th>Due on</th>
+        <th>Owner</th>
+        {% if user.is_authenticated %}
+        <th>Mark</th>
+        <th>Delete</th>
+        <th>Update</th>
+        {% endif %}
+    </tr>
+    {% for task in tasks %}
+    {% if task.mark is False %}    
+    <tr>
+        <th>{{task.name}}</th>
+        <th>{{task.created}}</th>
+        <th>{{task.due_on}}</th>
+        <th>{{task.owner}}</th>
+        {% if user.is_authenticated %}
+        <th>
+            <a href="./updatetask/{{task.id}}"><button type="button" class="btn btn-primary">Done</button></a>
+        </th>
+        <th>
+            <a href="./deletetask/{{task.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+        </th>
+        <th>
+            <a href="./updatealltask/{{task.id}}"><button type="button" class="btn btn-info">Update</button></a>
+        </th>
+        {% endif %}
+    {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block footer %}
+<a href="./donelist"><button type="button"  class="btn btn-warning">View completed tasks</button></a>
+{% if user.is_authenticated %}
+<a href="./delete_list"><button type="button"  class="btn btn-danger">Delete this list</button></a>
+{% endif %}
+{% endblock%}

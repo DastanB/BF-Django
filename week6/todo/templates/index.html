@@ -1,0 +1,43 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block header %}
+{% if user.is_authenticated %}
+    <a href="/new_list"><button type="button" class="btn btn-info">Add list</button></a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<hr>
+<h2>All lists</h2>
+
+<form method="GET" class="form-inline" action="">
+    {% csrf_token %}
+    <input class="form-control" type="text" name="name" placeholder="Search">
+    <button type="submit" class="btn btn-primary my-1" style="margin-left: 5px;">Submit</button>
+</form>
+
+<button type="button" class="btn btn-primary" onclick="window.location.href='/?order=name'" >Order by name</button>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        {% if user.is_authenticated %}
+        <th>Want to?</th>
+        {% endif %}
+    </tr>
+    {% for list in lists %}
+    <tr>
+        <th><a href="{{list.id}}/todolist">{{list.name}}</a></th>
+        {% if user.is_authenticated %}
+        <th><a href="{{list.id}}/update_list"><button type="button" class="btn btn-primary">Update</button></a></th>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
