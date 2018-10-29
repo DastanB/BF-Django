@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+{% if user.is_authenticated %}
+<a href="{% url 'add_rest' %}"><button class="btn btn-info" type="button">Add restaurant</button></a>
+{% endif %}
+{% endblock %}
+
+{% block content%}
+    <hr>
+    <h2>Dishes of {{rest.name}}</h2>
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        {% for dish in dishes %}
+        <tr>
+            <th>{{dish.name}}</th>
+            <th>{{dish.description}}</th>
+            <th>{{dish.price}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <hr>
+    <h2>Reviews of {{rest.name}}</h2>
+
+    <table class="table">
+        <tr>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+        {% for r in reviews %}
+        <tr>
+            <th>{{r.rating}}</th>
+            <th>{{r.comment}}</th>
+            <th>{{r.date}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock%}

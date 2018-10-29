@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content%}
+    <hr>
+    <h2>Cities</h2>
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+        </tr>
+        {% for city in cities %}
+        <tr>
+            <th><a href="{{city.id}}/">{{city.name}}</a></th>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock%}

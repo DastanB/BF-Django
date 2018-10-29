@@ -163,7 +163,7 @@ def update_list(request, pk):
             the_list = List.objects.get(pk=pk)
             the_list.name = name
             the_list.save()
-            return redirect('/')
+            return redirect('/  ')
     else:
         form = ListForm()
     

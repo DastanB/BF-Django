@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block header %}
+{% if user.is_authenticated %}
+    <a href="add_comment"><button type="button" class="btn btn-info">Add comment</button></a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<hr>
+<h1>{{post.title}} </h1>
+<p>{{post.user}}</p>
+<p>pubslished: {{post.published}}</p>
+<h4>{{post.body}}</h4>
+<hr>
+<h5>Comments</h5>
+<table class="table">
+    <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Comment</th>
+        {% if user.is_authenticated %}
+        <th>Update</th>
+        <th>Delete</th>
+        {% endif %}
+    </tr>
+    {% for comment in comments %}
+    <tr>
+        <th>{{comment.user}}</th>
+        <th>{{comment.published}}</th>
+        <th>{{comment.message}}</th>
+        {% if user.is_authenticated %}
+        <th><a href="./update_comment/{{comment.id}}"><button type="button" class="btn btn-info">Update</button></a></th>
+        <th><a href="./delete_comment/{{comment.id}}"><button type="button" class="btn btn-danger">Delete</button></a></th>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

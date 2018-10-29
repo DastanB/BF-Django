@@ -12,10 +12,10 @@
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"">
         <a class="navbar-brand nav-link" href="{% url 'index' %}">ALL POSTS</a>
-        <div class= "x">
+        <div>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
+                    <li class="nav-item">+
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
                 {% else %}

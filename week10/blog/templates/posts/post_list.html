@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% if user.is_authenticated %}
+    <a href="{% url 'post_create' %}"><button type="button" class="btn btn-info">Add post</button></a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <ul class="list-group">
+        {% for post in posts %}
+            <li class="list-group-item">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{post.image}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h5>
+                        {% if user == post.user %}
+                        <a href="{% url 'post_update' post.id %}" class="btn btn-primary btn-primary">Update</a>
+                        <a href="{% url 'post_delete' post.id %}" class="btn btn-primary btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+
+        {% endfor %}
+    </ul>
+{% endblock %}
