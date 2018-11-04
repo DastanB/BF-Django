@@ -9,7 +9,8 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+    View
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -21,6 +22,7 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
 
 class PostCreateView(CreateView, LoginRequiredMixin):
     model = Post
@@ -49,19 +51,40 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return Post.objects.for_user(user=self.request.user)
 
-@login_required
-def add_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    else:
-        form = PostForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'posts/add_post.html', context)
+class PostDetView(View):
+    def get(self, request, pk):
+        context = {
+            'post': Post.objects.get(pk=pk),
+            'comments': Post.objects.get(pk=pk).comments.all()
+        }
+        return render(request, 'posts/post_detail.html', context)
+
+
+class CommentCreateView(CreateView, LoginRequiredMixin):
+    model = Comment
+    fields = ['message',]
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.post = Post.objects.get(id=self.kwargs['fk'])
+        form.save()
+        return super().form_valid(form)
+
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ['message',]
+    success_url = reverse_lazy('index')
+
+    def get_queryset(self):
+        return Comment.objects.for_user(user=self.request.user)
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    success_url = reverse_lazy('index')
+
+    def get_queryset(self):
+        return Comment.objects.for_user(user=self.request.user)
 
 @login_required
 def add_comment(request, fk):
@@ -77,7 +100,7 @@ def add_comment(request, fk):
             comment.message = message
             comment.post = post
             comment.save()
-            return redirect('.')
+            return redirect('index')
     else:
         form = CommentForm()
     context = {

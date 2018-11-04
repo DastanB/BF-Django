@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('user', 'message')
+        fields = ('message',)
 
 class UpdateCommentForm(forms.ModelForm):
     class Meta:

@@ -20,7 +20,7 @@
         <th>User</th>
         <th>Date</th>
         <th>Comment</th>
-        {% if user.is_authenticated %}
+        {% if user == post.user %}
         <th>Update</th>
         <th>Delete</th>
         {% endif %}
@@ -30,7 +30,7 @@
         <th>{{comment.user}}</th>
         <th>{{comment.published}}</th>
         <th>{{comment.message}}</th>
-        {% if user.is_authenticated %}
+        {% if user == post.user %}
         <th><a href="./update_comment/{{comment.id}}"><button type="button" class="btn btn-info">Update</button></a></th>
         <th><a href="./delete_comment/{{comment.id}}"><button type="button" class="btn btn-danger">Delete</button></a></th>
         {% endif %}

@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+
+{% block header %}
+{% if user.is_authenticated %}
+    <a href="{% url 'add_list' %}"><button type="button" class="btn btn-info">Add list</button></a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<hr>
+<h2>All lists</h2>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        {% if user.is_authenticated %}
+        <th>Want to?</th>
+        {% endif %}
+    </tr>
+    {% for list in lists %}
+    <tr>
+        <th><a href="{% url 'todo_list' list.id %}">{{list.name}}</a></th>
+        {% if user.is_authenticated %}
+        <th><a href="{% url 'update_list' list.id %}"><button type="button" class="btn btn-primary">Update</button></a></th>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

@@ -17,6 +17,10 @@ class PostManager(models.Manager):
     def for_user(self, user):
         return self.filter(user=user)
 
+class CommentManager(models.Manager):
+    def for_user(self, user):
+        return self.filter(user=user)
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     body = models.CharField(max_length=30000)
@@ -39,5 +43,11 @@ class Comment(models.Model):
     message = models.CharField(max_length=30000)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
 
+
+    objects = CommentManager()
+
     def __str__(self):
         return self.message 
+
+    def get_absolute_url(self):
+        return reverse_lazy('index')
