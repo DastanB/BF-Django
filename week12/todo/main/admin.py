@@ -9,9 +9,9 @@ class ListAdmin(admin.ModelAdmin):
     list_per_page = 25
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'created', 'due_on', 'owner', 'mark', 'list_id')
-    list_display_links = ('id', 'name', 'created', 'due_on', 'owner', 'mark', 'list_id')
-    search_fields = ('title', 'name', 'created', 'due_on', 'owner', 'mark', 'list_id')
+    list_display = ('id', 'name', 'created', 'due_on', 'user', 'mark', 'list')
+    list_display_links = ('id', 'name', 'created', 'due_on', 'user', 'mark', 'list')
+    search_fields = ('title', 'name', 'created', 'due_on', 'user', 'mark', 'list')
     list_per_page = 25
 
 

@@ -4,6 +4,7 @@ from datetime import datetime
 # Create your models here.
 class List(models.Model):
     name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def to_json(self):
         return {
@@ -19,9 +20,9 @@ class Task(models.Model):
     name = models.CharField(max_length = 255)
     created = models.DateTimeField(default=datetime.now())
     due_on = models.DateTimeField(default=None)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     mark = models.BooleanField(default = False)
-    list_id = models.ForeignKey(List, on_delete=models.CASCADE, default=None, related_name='tasks')
+    list = models.ForeignKey(List, on_delete=models.CASCADE, default=None, related_name='tasks')
 
     def __str__(self):
         return self.name

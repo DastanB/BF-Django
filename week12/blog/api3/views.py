@@ -59,6 +59,8 @@ class PostGenView(generics.ListCreateAPIView):
 class PostDetailGenView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostModelSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def get_object(self):
         return Post.objects.get(id=self.kwargs['pk'])
@@ -130,7 +132,8 @@ def login(request):
 
 @api_view(['GET'])
 def logout(request):
-    request.user.auth_token.delete()
+    user = Token.objects.get(key=request.META.get('token')).user
+    user.auth_token.delete()
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -139,6 +142,7 @@ def register(request):
     if serialized.is_valid():
         User.objects.create_user(
             request.data.get('username'),
+
             request.data.get('email'),
             request.data.get('password')
         )
